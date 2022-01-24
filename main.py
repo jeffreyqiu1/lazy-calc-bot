@@ -20,10 +20,10 @@ async def on_message(message):
         return
 
     if message.content.startswith('$'):
-        try:
+         try:
             output = (calc(message.content))
             await message.channel.send(output)  # maybe return is the problem
-        except:
+         except:
             await message.channel.send("fix up ur input boss")
 
 
@@ -44,6 +44,17 @@ def calc(inputStr):
         return binomcdf(inputList[1], inputList[2], inputList[3])
     elif command == "$nbinompdf":
         return nbinompdf(inputList[1], inputList[2], inputList[3])
+    elif command == "$dot":
+        # e.g $dot 1 1 1 2 2 2 -> vectorLength is 3
+        vectorLength = int((len(inputList) - 1)/2) # subtract 1 bc inputList[0] is the command
+        vector1 = []
+        vector2 = []
+        for i in range(vectorLength):
+            vector1.append(int(inputList[i+1]))
+            vector2.append(int(inputList[i+1+vectorLength]))
+        return dotproduct(vector1, vector2)
+    elif command == "$cross":
+        return crossproduct(inputList[1:4], inputList[4:])
     else:
         return "idk that formula still"
 
@@ -89,14 +100,37 @@ def binomcdf(input1, input2, input3):
     probSuccess = float(input2)
     successes = int(input3)
     total = 0
-    for x in range(successes+1):
+    for x in range(successes + 1):
         total += binompdf(trials, probSuccess, x)
     return total
 
+
 def nbinompdf(input1, input2, input3):
-    trials = int(input1)-1
+    trials = int(input1) - 1
     probSuccess = float(input2)
-    successes = int(input3)-1
-    return choose(trials, successes)*(probSuccess**(successes+1))*((1-probSuccess)**(trials-successes))
+    successes = int(input3) - 1
+    return choose(trials, successes) * (probSuccess ** (successes + 1)) * ((1 - probSuccess) ** (trials - successes))
+
+
+def dotproduct(vectorList1, vectorList2):
+    total = 0
+    for i in range(len(vectorList1)):
+        total += (vectorList1[i] * vectorList2[i])
+    return total
+
+def crossproduct(u, v):
+    u.insert(0, 0) # for simplicity in typing up the formula
+    v.insert(0, 0)
+
+    for i in range(4): # turn inputs from str to int
+        u[i] = int(u[i])
+        v[i] = int(v[i])
+
+    i = u[2]*v[3]-u[3]*v[2]
+    j = -1*(u[1]*v[3]-u[3]*v[1])
+    k = u[1]*v[2]-u[2]*v[1]
+
+    return "[" + str(i) + "   " + str(j) + "   " + str(k) + "](T)"
+
 
 client.run(TOKEN)
