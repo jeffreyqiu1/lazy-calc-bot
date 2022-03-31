@@ -4,7 +4,9 @@ This bot stores several statistics formulas to save you the time of using a calc
 
 To use the bot, type the formula you want with a '$' in front, followed by the numbers separated by spaces.
 
-It supports the following formulas:
+Click [here](https://discord.com/api/oauth2/authorize?client_id=932125234608373880&permissions=309237718016&scope=bot) to add the bot to your Discord server!
+
+It supports the following formulas (for now I'm adding more just wait):
 
 $dot (vector 1 arguments) (vector 2 arguments) returns the dot product of vectors 1 and 2\
 $cross (vector 1 arguments) (vector 2 arguments) returns the cross product of vectors 1 and 2 in transpose notation\
